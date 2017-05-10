@@ -6,7 +6,7 @@ import com.csair.csairmind.hunter.common.context.ApiContext;
 /**
  *具体的实现服务处理的基类
  * 所有具体要求继承此基类
- * Created by luohonghong on 2016/6/30.20:31
+ * Created by zhangcheng
  */
 public abstract  class BasicApiService implements IApiService {
     private ApiContext apiContext;

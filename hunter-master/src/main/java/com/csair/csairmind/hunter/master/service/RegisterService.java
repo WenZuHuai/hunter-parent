@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * 机器注册
- * Created by luohonghong on 2016/7/1.18:17
+ * Created by zhangcheng
  */
 public class RegisterService extends BasicApiService{
     private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
