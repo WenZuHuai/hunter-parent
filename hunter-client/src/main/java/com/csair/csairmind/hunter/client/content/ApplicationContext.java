@@ -4,7 +4,7 @@ package com.csair.csairmind.hunter.client.content;
 import com.csair.csairmind.hunter.common.inf.MgrService;
 
 /**
- * Created by luohonghong on 2016/7/28.
+ * Created by zhangcheng
  */
 public interface ApplicationContext {
     /**

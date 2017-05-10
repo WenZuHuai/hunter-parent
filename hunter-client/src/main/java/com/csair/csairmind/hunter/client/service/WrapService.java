@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * 方便重复调用，只是简单的包了一下服务接口
- * Created by luohonghong on 2016/7/1.17:13
+ * Created by zhangcheng
  */
 @Slf4j
 public class WrapService {

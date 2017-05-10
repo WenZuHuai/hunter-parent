@@ -5,7 +5,7 @@ import com.csair.csairmind.hunter.client.service.WrapService;
 import com.csair.csairmind.hunter.common.inf.MgrService;
 
 /**
- * Created by luohonghong on 2016/7/28.
+ * Created by zhangcheng
  */
 public class DefaultApplicationContext implements ApplicationContext {
 

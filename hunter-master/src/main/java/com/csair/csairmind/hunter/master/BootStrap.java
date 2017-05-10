@@ -9,8 +9,8 @@ import org.springframework.context.annotation.ImportResource;
 
 
 @SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan(basePackages = {"com.csair.csairmind.hunter.common.plug","com.csair.csairmind.hunter.master"})
+@ComponentScan(basePackages = {"com.csair.csairmind.hunter.common.plug"})
+@ImportResource({ "classpath:dubbo-producer.xml" })
 public class BootStrap {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(BootStrap.class, args);

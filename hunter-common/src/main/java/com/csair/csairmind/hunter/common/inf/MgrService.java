@@ -5,10 +5,12 @@ import com.csair.csairmind.hunter.common.request.OperateResult;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * Created by zhengcheng
  */
-@Component("mgrService")
+@Resource
 public interface MgrService {
     /**
      * 用于接受客户端请求的服务

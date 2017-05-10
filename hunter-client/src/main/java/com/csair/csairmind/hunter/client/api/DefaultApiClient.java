@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 /**
  * 用于接口统一请求服务
- * Created by luohonghong on 2016/6/30.16:03
- */
+ * Created by zhangcheng
+        */
 
 public class DefaultApiClient implements ApiClient {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
