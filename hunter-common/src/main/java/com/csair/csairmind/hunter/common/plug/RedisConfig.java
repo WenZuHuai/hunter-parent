@@ -1,6 +1,7 @@
 package com.csair.csairmind.hunter.common.plug;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,9 @@ import redis.clients.jedis.JedisPoolConfig;
  * Created by zhangcheng
  * redis插件
  */
-@Configuration
 @Slf4j
+@Configuration
+@EnableAutoConfiguration
 public class RedisConfig {
 
     @Bean
