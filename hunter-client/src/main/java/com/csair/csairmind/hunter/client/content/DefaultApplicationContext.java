@@ -2,21 +2,33 @@ package com.csair.csairmind.hunter.client.content;
 
 
 import com.csair.csairmind.hunter.client.service.WrapService;
+import com.csair.csairmind.hunter.client.work.HeartWorker;
 import com.csair.csairmind.hunter.common.inf.MgrService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by zhangcheng
  */
+@Slf4j
+@Component
 public class DefaultApplicationContext implements ApplicationContext {
 
-    private static  final Object sycObject=new Object();
-    private static  ApplicationContext instance;
+    private static final Object sycObject = new Object();
+    private static ApplicationContext instance;
 
-    public  static  ApplicationContext context(){
-        if(instance==null){
-            synchronized (sycObject){
-                if(instance==null){
-                    instance=new DefaultApplicationContext();
+    @Autowired
+    WrapService wrapService ;
+
+    @Autowired
+    HeartWorker heartWorker;
+
+    public static ApplicationContext context() {
+        if (instance == null) {
+            synchronized (sycObject) {
+                if (instance == null) {
+                    instance = new DefaultApplicationContext();
                 }
             }
         }
@@ -24,15 +36,12 @@ public class DefaultApplicationContext implements ApplicationContext {
     }
 
 
-
-
     @Override
     public void start() {
-        WrapService service=new WrapService();
-        if(service.register()){
-
-        }else{
-            System.out.println("注册机器失败........");
+        if (wrapService.register()) {
+            heartWorker.start();
+        } else {
+           log.error("注册机器失败........");
         }
 
     }
@@ -41,11 +50,13 @@ public class DefaultApplicationContext implements ApplicationContext {
     public void stop() {
 
     }
+
     /**
      * 休息一下
+     *
      * @param millionSeconds
      */
-    protected void takeARest(int millionSeconds){
+    protected void takeARest(int millionSeconds) {
         try {
             Thread.sleep(millionSeconds);
         } catch (InterruptedException e) {
@@ -53,38 +64,15 @@ public class DefaultApplicationContext implements ApplicationContext {
         }
     }
 
-    /**获取服务对象*/
-    private MgrService mgrService;
-    /**会话key*/
-    private String sessionKey="";
-    /**机器ID*/
-    private String machineId="";
 
-    public MgrService getMgrService() {
-        return mgrService;
-    }
-
-    public void setMgrService(MgrService mgrService) {
-        this.mgrService = mgrService;
-    }
-
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
-    }
-
-    public String getMachineId() {
-        return machineId;
-    }
-
-    public void setMachineId(String machineId) {
-        this.machineId = machineId;
-    }
-
-
+    /**
+     * 会话key
+     */
+    public static String SESSIONKEY = "";
+    /**
+     * 机器编号
+     */
+    public static String MACHINEID = "";
 
 
 }

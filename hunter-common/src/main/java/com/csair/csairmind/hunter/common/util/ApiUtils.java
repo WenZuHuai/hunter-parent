@@ -2,6 +2,7 @@ package com.csair.csairmind.hunter.common.util;
 
 import com.csair.csairmind.hunter.common.request.ApiRequest;
 import com.csair.csairmind.hunter.common.response.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 /**
  * Created by zhengcheng
  */
+@Slf4j
 public class ApiUtils {
     /**
      * 对要发送的数据进行签名
@@ -67,7 +69,7 @@ public class ApiUtils {
             //获取网卡，获取地址
             InetAddress ia = InetAddress.getLocalHost();
             byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
-            System.out.println("mac数组长度："+mac.length);
+            log.info("mac数组长度："+mac.length);
             StringBuffer sb = new StringBuffer("");
             for(int i=0; i<mac.length; i++) {
                 if(i!=0) {
@@ -83,7 +85,7 @@ public class ApiUtils {
                     sb.append(str);
                 }
             }
-            System.out.println("本机MAC地址:"+sb.toString().toUpperCase());
+            log.info("本机MAC地址:"+sb.toString().toUpperCase());
             return sb.toString().toUpperCase();
         } catch (UnknownHostException e) {
             e.printStackTrace();
