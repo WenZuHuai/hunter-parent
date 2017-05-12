@@ -7,6 +7,7 @@ import lombok.Getter;
  */
 public enum OperateCodeHolder {
 
+    REGISTER_SUCCESS("1","机器注册成功"),
     SUCCESS("1","成功"),
     FAIL("2","失败"),
     EXCEPTION("9000","处理异常"),

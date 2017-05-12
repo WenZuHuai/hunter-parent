@@ -7,6 +7,8 @@ public interface IRedisService {
 
     public boolean hset(String key, String value ,String value1);
 
+    public String hget(String key, String value );
+
     public boolean set(String key, String value);  
       
     public String get(String key);  
@@ -21,6 +23,8 @@ public interface IRedisService {
       
     public long rpush(String key,Object obj);  
       
-    public String lpop(String key);  
+    public String lpop(String key);
+
+    public boolean hexists(String key, String mkey);
       
 }

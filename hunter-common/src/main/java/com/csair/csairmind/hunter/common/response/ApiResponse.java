@@ -1,31 +1,19 @@
 package com.csair.csairmind.hunter.common.response;
 
+import com.csair.csairmind.hunter.common.enums.OperateCodeHolder;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * Created by zhengcheng
  */
+@Data
 public abstract class ApiResponse implements Serializable {
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    private String code="";
-    private String msg="";
+    private OperateCodeHolder operateCodeHolder ;
 
     public void printCodeInfo(){
-        System.out.println(String.format("code:%s,msg:%s",code,msg));
+        System.out.println(String.format("code:%s,msg:%s",operateCodeHolder.getCode(),operateCodeHolder.getMsg()));
     }
 }

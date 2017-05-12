@@ -7,13 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hunter-client" />
+        <module name="hunter-common" />
+        <module name="hunter-master" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hunter-client" target="1.7" />
-      <module name="hunter-common" target="1.7" />
-      <module name="hunter-master" target="1.7" />
-      <module name="hunter-parent" target="1.7" />
+      <module name="hunte-rtest" target="1.5" />
+      <module name="hunter-client" target="1.5" />
+      <module name="hunter-common" target="1.5" />
+      <module name="hunter-master" target="1.5" />
+      <module name="hunter-parent" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

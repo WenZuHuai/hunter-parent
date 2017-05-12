@@ -54,6 +54,7 @@ public class HeartWorker extends Thread {
                 defaultApiClient.machineId = machineId;
 
                 BeatRequest request = new BeatRequest();
+                log.info("向master发送心跳");
                 OperateResult result = defaultApiClient.execute(request);
                 if (result.isSuccess()) {
                     ApiResponse response = result.getResponse();

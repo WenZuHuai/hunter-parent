@@ -71,6 +71,7 @@ public class MgrServiceImpl implements MgrService {
                 return result;
             }
 
+            //创建服务对象
             IApiService iApiService= ServiceFactory.getService(request.getApiName());
             if(iApiService==null){
                 result.setCode(OperateCodeHolder.SERVICE_NO_EXIST.getCode());
