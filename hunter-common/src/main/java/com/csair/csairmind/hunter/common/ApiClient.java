@@ -12,5 +12,5 @@ import org.springframework.stereotype.Service;
  */
 @Component
 public interface ApiClient {
-    public OperateResult execute(ApiRequest request) throws ApiException;
+    OperateResult execute(ApiRequest request) throws ApiException;
 }

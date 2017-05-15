@@ -14,13 +14,14 @@ import javax.annotation.Resource;
 public interface MgrService {
     /**
      * 用于接受客户端请求的服务
+     *
      * @param appKey
      * @param machineId
      * @param sign
      * @param request
      * @return
      */
-    public OperateResult execute(String appKey, String machineId, String sign, ApiRequest request) ;
+    public OperateResult execute(String appKey, String machineId, String sign, ApiRequest request);
 
 
 }

@@ -1,6 +1,7 @@
 
 import com.csair.csairmind.hunter.client.TestBootstrap;
 import com.csair.csairmind.hunter.common.config.AppValidateInfo;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class Test1 {
     @Test
     public void getHello() throws Exception {
         System.out.println(appValidateInfo);
-//        Assert.assertEquals(appValidateInfo.getAppKey(), "1001");
-//        Assert.assertEquals(appValidateInfo.getAppSecret(), "e470f665d1fad185234a27596d7b9a43");
+        Assert.assertEquals(appValidateInfo.getAppKey(), "1001");
+        Assert.assertEquals(appValidateInfo.getAppSecret(), "e470f665d1fad185234a27596d7b9a43");
     }
 }

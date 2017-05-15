@@ -12,6 +12,7 @@ public abstract class BaseRequest implements ApiRequest {
     public String getTimestamp() {
         return timestamp;
     }
+
     @Override
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;

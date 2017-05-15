@@ -41,6 +41,7 @@ public class HeartWorker extends Thread {
 
     private boolean running;
     private int errorTryCount = 0;
+    //重试上线次数
     private int MAX_ERROR_TRY_COUNT = 3;
 
     public void run() {

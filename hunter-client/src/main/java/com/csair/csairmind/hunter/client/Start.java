@@ -10,13 +10,21 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+
+/**
+ * Created by zhangcheng
+ * 任务启动
+ */
 @Component
 @Slf4j
 public class Start {
 
     @Autowired
     ApplicationContext defaltApplicationContext;
-    public @PostConstruct void init() {
+
+    public
+    @PostConstruct
+    void init() {
         //放入全局公共变量，以便引用
         defaltApplicationContext.start();
     }

@@ -1,7 +1,6 @@
 package com.csair.csairmind.hunter.client.api;
 
 
-import com.csair.csairmind.hunter.client.content.DefaultApplicationContext;
 import com.csair.csairmind.hunter.common.ApiClient;
 import com.csair.csairmind.hunter.common.inf.MgrService;
 import com.csair.csairmind.hunter.common.request.ApiRequest;

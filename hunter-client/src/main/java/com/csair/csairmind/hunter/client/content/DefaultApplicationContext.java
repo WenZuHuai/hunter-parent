@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * 程序上下文
  * Created by zhangcheng
  */
 @Slf4j

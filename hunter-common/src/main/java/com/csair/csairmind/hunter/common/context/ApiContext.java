@@ -9,7 +9,10 @@ import com.csair.csairmind.hunter.common.vo.MachineInfo;
  */
 public interface ApiContext {
     public void setMachineId(String machineId);
+
     public String getMachineId();
-    public void setMachineInfo(MachineInfo machineInfo) ;
-    public MachineInfo getMachineInfo() ;
+
+    public void setMachineInfo(MachineInfo machineInfo);
+
+    public MachineInfo getMachineInfo();
 }

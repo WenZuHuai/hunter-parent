@@ -1,8 +1,6 @@
 package com.csair.csairmind.hunter.common.request;
 
 
-
-
 import com.csair.csairmind.hunter.common.ApiHolder;
 import lombok.Data;
 
@@ -14,7 +12,7 @@ import java.util.HashMap;
  * Created by zhengcheng
  */
 @Data
-public class RegisterRequest extends BaseRequest  implements  Serializable {
+public class RegisterRequest extends BaseRequest implements Serializable {
 
     private String ip;
     private String mac;
@@ -25,13 +23,14 @@ public class RegisterRequest extends BaseRequest  implements  Serializable {
 
     @Override
     public HashMap<String, String> getSignParameters() {
-        HashMap<String,String> parameters=new HashMap<String, String>();
-        parameters.put("ip",ip);
-        parameters.put("mac",mac);
-        parameters.put("pid",pid+"");
+        HashMap<String, String> parameters = new HashMap<String, String>();
+        parameters.put("ip", ip);
+        parameters.put("mac", mac);
+        parameters.put("pid", pid + "");
         return parameters;
 
     }
+
     @Override
     public String getApiName() {
         return ApiHolder.REGISTER;

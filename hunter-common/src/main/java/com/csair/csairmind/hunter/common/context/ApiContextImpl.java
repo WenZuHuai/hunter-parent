@@ -9,9 +9,10 @@ import com.csair.csairmind.hunter.common.vo.MachineInfo;
 public class ApiContextImpl implements ApiContext {
     private String machineId;
     private MachineInfo machineInfo;
+
     @Override
     public void setMachineId(String machineId) {
-        this.machineId=machineId;
+        this.machineId = machineId;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class ApiContextImpl implements ApiContext {
 
     @Override
     public void setMachineInfo(MachineInfo machineInfo) {
-        this.machineInfo=machineInfo;
+        this.machineInfo = machineInfo;
     }
 
     @Override
