@@ -40,97 +40,92 @@ public class MgrServiceImpl implements MgrService {
     StringRedisTemplate stringRedisTemplate;
 
     public OperateResult execute(String appKey, String machineId, String sign, ApiRequest request) {
-        OperateResult result=new OperateResult();
+        OperateResult result = new OperateResult();
         String clientIP = RpcContext.getContext().getRemoteHost();
 
-        try{
-            log.info(String.format("收到来自[%s]命令:%s\t参数[appKey=%s,machineId=%s,timestamp=%s]\t",clientIP,request.getApiName(),appKey,machineId,request.getTimestamp()));
+        try {
+            log.info(String.format("收到来自[%s]命令:%s\t参数[appKey=%s,machineId=%s,timestamp=%s]\t", clientIP, request.getApiName(), appKey, machineId, request.getTimestamp()));
 
             //检测参数
-            if(StringUtils.isBlank(request.getTimestamp())){
-                result.setCode(OperateCodeHolder.INVALID_VALUE.getCode());
-                result.setMsg("timestamp不能为空");
-                log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+            if (StringUtils.isBlank(request.getTimestamp())) {
+                result.setOperateCodeHolder(OperateCodeHolder.TIMESTAMP_ERROR);
+                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                 return result;
             }
             //超过15分钟的时间戳视为无效
             Date requestTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(request.getTimestamp());
             //15分钟前
-            Date endDateTime=new Date(new Date().getTime()- 60 * 1000*15);
-            if(DateUtils.truncatedCompareTo(requestTime,endDateTime , Calendar.SECOND)<0){
-                result.setCode(OperateCodeHolder.INVALID_VALUE.getCode());
-                result.setMsg("timestamp超过15分钟!");
-                log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+            Date endDateTime = new Date(new Date().getTime() - 60 * 1000 * 15);
+            if (DateUtils.truncatedCompareTo(requestTime, endDateTime, Calendar.SECOND) < 0) {
+                result.setOperateCodeHolder(OperateCodeHolder.TIMESTAMP_TIME_OUT);
+                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                 return result;
             }
             //appKey
-            if(appKey==null ||appKey.trim().equalsIgnoreCase("")){
-                result.setCode(OperateCodeHolder.INVALID_VALUE.getCode());
-                result.setMsg("appKey不能为空!");
-                log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+            if (appKey == null || appKey.trim().equalsIgnoreCase("")) {
+                result.setOperateCodeHolder(OperateCodeHolder.APPKEY_NULL);
+                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                 return result;
             }
 
             //创建服务对象
-            IApiService iApiService= ServiceFactory.getService(request.getApiName());
-            if(iApiService==null){
-                result.setCode(OperateCodeHolder.SERVICE_NO_EXIST.getCode());
-                log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+            IApiService iApiService = ServiceFactory.getService(request.getApiName());
+            if (iApiService == null) {
+                result.setOperateCodeHolder(OperateCodeHolder.SERVICE_NO_EXIST);
+                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                 return result;
             }
 
             //签名验证
-            HashMap<String,String> parameters= request.getSignParameters();
-            if(parameters==null){
-                parameters=new HashMap<String, String>();
+            HashMap<String, String> parameters = request.getSignParameters();
+            if (parameters == null) {
+                parameters = new HashMap<String, String>();
             }
-            parameters.put("machineId",machineId);
-            parameters.put("appKey",appKey);
-            parameters.put("appSecret",appValidateInfo.getAppSecret());
-            parameters.put("timestamp",request.getTimestamp());
-            String sign2= ApiUtils.signRequest(appKey, appValidateInfo.getAppSecret(), parameters);
-            if(sign==null ||"".equalsIgnoreCase(sign2)||!sign2.equalsIgnoreCase(sign)){
-                result.setCode(OperateCodeHolder.SIGN_ERROR.getCode());
-                result.setMsg(OperateCodeHolder.SIGN_ERROR.getMsg());
-                log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+            parameters.put("machineId", machineId);
+            parameters.put("appKey", appKey);
+            parameters.put("appSecret", appValidateInfo.getAppSecret());
+            parameters.put("timestamp", request.getTimestamp());
+            String sign2 = ApiUtils.signRequest(appKey, appValidateInfo.getAppSecret(), parameters);
+            if (sign == null || "".equalsIgnoreCase(sign2) || !sign2.equalsIgnoreCase(sign)) {
+                result.setOperateCodeHolder(OperateCodeHolder.SIGN_ERROR);
+                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                 return result;
             }
 
             //设置ApiContext，以便具体实现类参数传递
-            ApiContext context=new ApiContextImpl();
+            ApiContext context = new ApiContextImpl();
 
-            if(ApiHolder.REGISTER.equalsIgnoreCase(request.getApiName())){
+            if (ApiHolder.REGISTER.equalsIgnoreCase(request.getApiName())) {
                 //注册服务令，不需要获取机器信息
-            }else{
+            } else {
                 //检测协议字段
-                if(machineId==null ||machineId.trim().equalsIgnoreCase("")){
-                    result.setCode(OperateCodeHolder.INVALID_VALUE.getCode());
-                    result.setMsg("machineId不能为空");
-                    log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+                if (machineId == null || machineId.trim().equalsIgnoreCase("")) {
+                    result.setOperateCodeHolder(OperateCodeHolder.MACHINE_NULL_ID);
+                    log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                     return result;
                 }
                 context.setMachineId(machineId);
-                Object machine = stringRedisTemplate.opsForHash().get(SprderConstants.MACHINE_QUEUE_PREFIX,machineId);
-                if(machine==null||machine.equals(""))
-                {
-                    result.setCode(OperateCodeHolder.INVALID_VALUE.getCode());
-                    result.setMsg("注册信息不存在");
-                    log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+                Object machine = stringRedisTemplate.opsForHash().get(SprderConstants.MACHINE_QUEUE_PREFIX, machineId);
+                if (machine == null || machine.equals("")) {
+                    result.setOperateCodeHolder(OperateCodeHolder.MACHINE_NULL_INFO);
+                    log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
                     return result;
-                }else{
-                    MachineInfo machineInfo = (MachineInfo) JsonUtil.toBean(machine.toString(),MachineInfo.class);
+                } else {
+                    MachineInfo machineInfo = (MachineInfo) JsonUtil.toBean(machine.toString(), MachineInfo.class);
                     context.setMachineInfo(machineInfo);
                 }
             }
             iApiService.setApiContext(context);
-            result.setCode(OperateCodeHolder.SUCCESS.getCode());
-            ApiResponse response=  iApiService.execute(request);
+            ApiResponse response = iApiService.execute(request);
+            //设置响应对象
             result.setResponse(response);
-            log.info(String.format("请求结果:[%s,%s]\r\n",result.getCode(),result.getMsg()));
+            //设置响应信息
+            result.setOperateCodeHolder(response.getOperateCodeHolder());
+            log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
             return result;
-        }catch (Exception ex){
-            result.setCode(OperateCodeHolder.EXCEPTION.getCode());
-            log.error("机器注册异常",ex);
+        } catch (Exception ex) {
+            result.setOperateCodeHolder(OperateCodeHolder.EXCEPTION);
+            log.error("机器注册异常", ex);
         }
         return result;
     }

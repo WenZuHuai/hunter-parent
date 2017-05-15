@@ -11,9 +11,6 @@ import java.io.Serializable;
 @Data
 public abstract class ApiResponse implements Serializable {
 
-    private OperateCodeHolder operateCodeHolder ;
+    private OperateCodeHolder operateCodeHolder;
 
-    public void printCodeInfo(){
-        System.out.println(String.format("code:%s,msg:%s",operateCodeHolder.getCode(),operateCodeHolder.getMsg()));
-    }
 }

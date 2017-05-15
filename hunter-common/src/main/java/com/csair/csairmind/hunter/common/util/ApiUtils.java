@@ -24,6 +24,7 @@ public class ApiUtils {
      */
     public static String signRequest(String appKey ,String appSecret,HashMap<String, String> parameters){
         //赶进度,加密算法先不实现
+        //TODO 加密算法实现
         return appKey+""+appSecret;
     }
 

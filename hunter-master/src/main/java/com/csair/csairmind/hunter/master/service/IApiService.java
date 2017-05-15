@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 public interface IApiService {
     /**
      * 用于处理请求的接口
+     *
      * @return
      */
-    public ApiResponse execute(ApiRequest request) ;
+    public ApiResponse execute(ApiRequest request);
 
     public ApiContext getApiContext();
+
     public void setApiContext(ApiContext apiContext);
 
 

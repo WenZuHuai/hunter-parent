@@ -1,8 +1,8 @@
 package com.csair.csairmind.hunter.master.service;
 
 
-
 import com.csair.csairmind.hunter.common.constant.SprderConstants;
+import com.csair.csairmind.hunter.common.enums.OperateCodeHolder;
 import com.csair.csairmind.hunter.common.plug.RedisServiceImpl;
 import com.csair.csairmind.hunter.common.request.ApiRequest;
 import com.csair.csairmind.hunter.common.response.ApiResponse;
@@ -27,7 +27,7 @@ import java.util.Date;
  */
 @Slf4j
 @Component
-public class BeatService extends BasicApiService{
+public class BeatService extends BasicApiService {
     private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
@@ -36,16 +36,17 @@ public class BeatService extends BasicApiService{
 
     @Override
     public ApiResponse execute(ApiRequest request) {
-        String machineId=getApiContext().getMachineId();
-        BeatResponse response=new BeatResponse();
-        if(redisServiceImpl.hexists(SprderConstants.MACHINE_QUEUE_PREFIX,machineId)){
+        String machineId = this.getApiContext().getMachineId();
+        BeatResponse response = new BeatResponse();
+        if (redisServiceImpl.hexists(SprderConstants.MACHINE_QUEUE_PREFIX, machineId)) {
             String json = redisServiceImpl.hget(SprderConstants.MACHINE_QUEUE_PREFIX, machineId);
-            MachineInfo machineInfo=(MachineInfo) JsonUtil.toBean(json,MachineInfo.class);
+            MachineInfo machineInfo = (MachineInfo) JsonUtil.toBean(json, MachineInfo.class);
             String updateTime = df.format(new Date());
             machineInfo.setUpdateTime(updateTime);
             redisServiceImpl.hset(SprderConstants.MACHINE_QUEUE_PREFIX, machineId, JsonUtil.fromObject(machineInfo));
+            response.setOperateCodeHolder(OperateCodeHolder.BEAT_SUCCESS);
             response.setOk(true);
-        }else{
+        } else {
             response.setOk(false);
             log.warn("收到心跳处理失败!...");
         }

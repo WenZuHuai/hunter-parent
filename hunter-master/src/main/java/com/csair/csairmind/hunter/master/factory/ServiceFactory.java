@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
  */
 public class ServiceFactory {
 
-    public static IApiService getService(String apiName){
-        IApiService service=null;
-        if(ApiHolder.BEAT.equalsIgnoreCase(apiName)){
+    public static IApiService getService(String apiName) {
+        IApiService service = null;
+        if (ApiHolder.BEAT.equalsIgnoreCase(apiName)) {
             //心跳
-            service= ApplicationContextProvider.getBean("beatService",BeatService.class);;
-        }else if(ApiHolder.REGISTER.equalsIgnoreCase(apiName)) {
+            service = ApplicationContextProvider.getBean("beatService", BeatService.class);
+        } else if (ApiHolder.REGISTER.equalsIgnoreCase(apiName)) {
             //注册
-            service = ApplicationContextProvider.getBean("registerService",RegisterService.class);
+            service = ApplicationContextProvider.getBean("registerService", RegisterService.class);
         }
 //        }else if(ApiHolder.TASK_APPLY.equalsIgnoreCase(apiName)){
 //            //申请任务

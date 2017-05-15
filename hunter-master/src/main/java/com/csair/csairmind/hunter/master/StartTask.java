@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 /**
- * 最顶层的接口类
+ * 任务启动类
  * Created by zhangcheng
  */
 @Component

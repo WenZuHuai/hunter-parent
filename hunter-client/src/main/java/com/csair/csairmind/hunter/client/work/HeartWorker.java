@@ -5,6 +5,7 @@ import com.csair.csairmind.hunter.client.api.DefaultApiClient;
 import com.csair.csairmind.hunter.client.content.DefaultApplicationContext;
 import com.csair.csairmind.hunter.client.service.WrapService;
 import com.csair.csairmind.hunter.common.config.AppValidateInfo;
+import com.csair.csairmind.hunter.common.enums.OperateCodeHolder;
 import com.csair.csairmind.hunter.common.request.BeatRequest;
 import com.csair.csairmind.hunter.common.request.OperateResult;
 import com.csair.csairmind.hunter.common.response.ApiResponse;
@@ -56,7 +57,7 @@ public class HeartWorker extends Thread {
                 BeatRequest request = new BeatRequest();
                 log.info("向master发送心跳");
                 OperateResult result = defaultApiClient.execute(request);
-                if (result.isSuccess()) {
+                if (result.getOperateCodeHolder().equals(OperateCodeHolder.BEAT_SUCCESS)) {
                     ApiResponse response = result.getResponse();
                     BeatResponse rsp = (BeatResponse) response;
                     if (rsp.isOk()) {
