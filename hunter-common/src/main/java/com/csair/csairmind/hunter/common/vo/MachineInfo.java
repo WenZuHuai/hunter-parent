@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * Created by luohonghong on 2016/7/2.13:39
+ * Created by zhangcheng
  */
 @Data
 public class MachineInfo implements Serializable {

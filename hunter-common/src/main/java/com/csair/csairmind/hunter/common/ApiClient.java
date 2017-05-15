@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by luohonghong on 2016/6/30.15:58
+ * Created by zhangcheng
  */
 @Component
 public interface ApiClient {
