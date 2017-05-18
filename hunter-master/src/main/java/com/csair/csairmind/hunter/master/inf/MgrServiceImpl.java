@@ -41,30 +41,32 @@ public class MgrServiceImpl implements MgrService {
 
     public OperateResult execute(String appKey, String machineId, String sign, ApiRequest request) {
         OperateResult result = new OperateResult();
-        String clientIP = RpcContext.getContext().getRemoteHost();
+
+        String requestInfo = String.format("收到来自[%s],命令[%s]",RpcContext.getContext().getRemoteHost(),request.getApiName());
 
         try {
-            log.info(String.format("收到来自[%s]命令:%s\t参数[appKey=%s,machineId=%s,timestamp=%s]\t", clientIP, request.getApiName(), appKey, machineId, request.getTimestamp()));
+            log.info("{},参数[appKey={},machineId={},timestamp={}]", requestInfo, request.getApiName(), appKey, machineId, request.getTimestamp());
 
             //检测参数
             if (StringUtils.isBlank(request.getTimestamp())) {
                 result.setOperateCodeHolder(OperateCodeHolder.TIMESTAMP_ERROR);
-                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                log.info(String.format("请求结果:[{}]", result.getOperateCodeHolder()));
                 return result;
             }
-            //超过15分钟的时间戳视为无效
+            //请求时间
             Date requestTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(request.getTimestamp());
             //15分钟前
             Date endDateTime = new Date(new Date().getTime() - 60 * 1000 * 15);
+            //超过15分钟的时间戳视为无效
             if (DateUtils.truncatedCompareTo(requestTime, endDateTime, Calendar.SECOND) < 0) {
                 result.setOperateCodeHolder(OperateCodeHolder.TIMESTAMP_TIME_OUT);
-                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                log.info("{},请求结果:[{}]", requestInfo, result.getOperateCodeHolder());
                 return result;
             }
             //appKey
             if (appKey == null || appKey.trim().equalsIgnoreCase("")) {
                 result.setOperateCodeHolder(OperateCodeHolder.APPKEY_NULL);
-                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                log.info("{},请求结果:[{}]", requestInfo,result.getOperateCodeHolder());
                 return result;
             }
 
@@ -72,7 +74,7 @@ public class MgrServiceImpl implements MgrService {
             IApiService iApiService = ServiceFactory.getService(request.getApiName());
             if (iApiService == null) {
                 result.setOperateCodeHolder(OperateCodeHolder.SERVICE_NO_EXIST);
-                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                log.info("{},请求结果:[{}]", requestInfo,result.getOperateCodeHolder());
                 return result;
             }
 
@@ -88,7 +90,7 @@ public class MgrServiceImpl implements MgrService {
             String sign2 = ApiUtils.signRequest(appKey, appValidateInfo.getAppSecret(), parameters);
             if (sign == null || "".equalsIgnoreCase(sign2) || !sign2.equalsIgnoreCase(sign)) {
                 result.setOperateCodeHolder(OperateCodeHolder.SIGN_ERROR);
-                log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                log.info("{},请求结果:[{}]", requestInfo,result.getOperateCodeHolder());
                 return result;
             }
 
@@ -101,14 +103,14 @@ public class MgrServiceImpl implements MgrService {
                 //检测协议字段
                 if (machineId == null || machineId.trim().equalsIgnoreCase("")) {
                     result.setOperateCodeHolder(OperateCodeHolder.MACHINE_NULL_ID);
-                    log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                    log.info("{},请求结果:[{}]", requestInfo,result.getOperateCodeHolder());
                     return result;
                 }
                 context.setMachineId(machineId);
                 Object machine = stringRedisTemplate.opsForHash().get(SprderConstants.MACHINE_QUEUE_PREFIX, machineId);
                 if (machine == null || machine.equals("")) {
                     result.setOperateCodeHolder(OperateCodeHolder.MACHINE_NULL_INFO);
-                    log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+                    log.info("{},请求结果:[{}]", requestInfo,result.getOperateCodeHolder());
                     return result;
                 } else {
                     MachineInfo machineInfo = (MachineInfo) JsonUtil.toBean(machine.toString(), MachineInfo.class);
@@ -121,7 +123,7 @@ public class MgrServiceImpl implements MgrService {
             result.setResponse(response);
             //设置响应信息
             result.setOperateCodeHolder(response.getOperateCodeHolder());
-            log.info(String.format("请求结果:[%s]", result.getOperateCodeHolder()));
+            log.info("{},请求结果:[{}]", requestInfo,result.getOperateCodeHolder());
             return result;
         } catch (Exception ex) {
             result.setOperateCodeHolder(OperateCodeHolder.EXCEPTION);
@@ -129,4 +131,5 @@ public class MgrServiceImpl implements MgrService {
         }
         return result;
     }
+
 }
