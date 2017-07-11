@@ -1,7 +1,6 @@
 package com.csair.csairmind.hunter.common.plug;
 
 import com.alibaba.fastjson.JSON;
-import net.minidev.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -10,18 +9,24 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+/**
+ * Created by zhangcheng
+ * redis服务实现类
+ */
 
 @Service
 public class RedisServiceImpl implements IRedisService {
 
     @Autowired
-    private RedisTemplate<String, ?> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public boolean hset(final String key, final String value, final String value1) {
-
         boolean result = redisTemplate.execute(new RedisCallback<Boolean>() {
             @Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
@@ -80,17 +85,8 @@ public class RedisServiceImpl implements IRedisService {
     }
 
     @Override
-    public long lpush(final String key, Object obj) {
-        final String value = JSON.toJSONString(obj);
-        long result = redisTemplate.execute(new RedisCallback<Long>() {
-            @Override
-            public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
-                long count = connection.lPush(serializer.serialize(key), serializer.serialize(value));
-                return count;
-            }
-        });
-        return result;
+    public Long lpush(String key, String jsonStr) {
+        return redisTemplate.opsForList().rightPush(key, jsonStr);
     }
 
     @Override
@@ -130,6 +126,32 @@ public class RedisServiceImpl implements IRedisService {
             }
         });
         return result;
+    }
+
+    @Override
+    public void hdel(String key, String... value) {
+        redisTemplate.opsForHash().delete(key,value);
+    }
+
+    @Override
+    public void del(String key) {
+        redisTemplate.delete(key);
+    }
+
+    @Override
+    public Map<String, String> hgetAll(final String key) {
+        return redisTemplate.execute(new RedisCallback<Map<String, String>>() {
+            @Override
+            public Map<String, String> doInRedis(RedisConnection connection) throws DataAccessException {
+                RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+                Map<byte[], byte[]> data = connection.hGetAll(serializer.serialize(key));
+                Map<String, String> results = new HashMap<String, String>();
+                for (byte[] key1 : data.keySet()) {
+                    results.put(serializer.deserialize(key1), serializer.deserialize(data.get(key1)));
+                }
+                return results;
+            }
+        });
     }
 
     @Override

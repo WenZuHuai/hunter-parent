@@ -6,21 +6,65 @@
       <profile default="true" name="Default" enabled="true">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile default="false" name="Annotation profile for hunter-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="hunter-service" />
+      </profile>
+      <profile default="false" name="Annotation profile for hunter-scheduler" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="hunter-scheduler" />
+      </profile>
+      <profile default="false" name="Annotation profile for hunter-common" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="hunter-common" />
+      </profile>
+      <profile default="false" name="Annotation profile for hunter-master" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="hunter-master" />
+      </profile>
+      <profile default="false" name="Annotation profile for hunter-client" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="hunter-client" />
-        <module name="hunter-common" />
-        <module name="hunter-master" />
+      </profile>
+      <profile default="false" name="Annotation profile for hunter-sprider" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="hunter-sprider" />
+      </profile>
+      <profile default="false" name="Annotation profile for hunter-plugin" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="hunter-plugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hunter-client" target="1.7" />
-      <module name="hunter-common" target="1.7" />
-      <module name="hunter-master" target="1.7" />
-      <module name="hunter-parent" target="1.7" />
+      <module name="hunter-client" target="1.8" />
+      <module name="hunter-common" target="1.8" />
+      <module name="hunter-master" target="1.8" />
+      <module name="hunter-parent" target="1.8" />
+      <module name="hunter-plugin" target="1.8" />
+      <module name="hunter-scheduler" target="1.8" />
+      <module name="hunter-service" target="1.8" />
+      <module name="hunter-sprider" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

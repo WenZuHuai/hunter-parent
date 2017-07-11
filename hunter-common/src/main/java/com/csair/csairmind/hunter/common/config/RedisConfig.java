@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Slf4j
 @Configuration
-@ConfigurationProperties(prefix="spring.redis",locations = "classpath:application.properties")
+@ConfigurationProperties(prefix="spring.redis",locations = "classpath:dev/application.properties")
 public class RedisConfig {
 
     @Bean
@@ -34,6 +34,7 @@ public class RedisConfig {
         log.info("reids服务初始化成功！");
         return factory;
     }
+
     @Bean
     public RedisTemplate<?, ?> getRedisTemplate(){
         RedisTemplate<?,?> template = new StringRedisTemplate(getConnectionFactory());

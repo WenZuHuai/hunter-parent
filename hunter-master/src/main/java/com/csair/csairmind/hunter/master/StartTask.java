@@ -15,6 +15,5 @@ public class StartTask {
 
     //定义在构造方法完毕后，执行这个初始化方法
     public @PostConstruct void init() {
-
     }
 }

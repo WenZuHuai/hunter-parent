@@ -5,10 +5,13 @@ import lombok.ToString;
 
 /**
  * Created by zhengcheng
+ * 请求状态
  */
 @ToString
 public enum OperateCodeHolder {
 
+    DETALIS_TASK_SUCCESS("0006", "请求详情解析任务成功"),
+    RESOURCE_TASK_SUCCESS("0005", "请求资源解析任务成功"),
     REGISTER_SUCCESS("0003", "机器注册成功"),
     BEAT_SUCCESS("0004", "接受心跳成功"),
     SUCCESS("1", "成功"),
@@ -56,6 +59,4 @@ public enum OperateCodeHolder {
         }
         return null;
     }
-
-
 }
